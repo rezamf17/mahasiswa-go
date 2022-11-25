@@ -11,7 +11,7 @@ type Repository interface {
 	FindAll() ([]model.Mahasiswa, error)
 	FindByID(ID int) (model.Mahasiswa, error)
 	Create(mahasiswa model.Mahasiswa) (model.Mahasiswa, error)
-	// Update(mahasiswa Mahasiswa) (Mahasiswa, error)
+	Update(mahasiswa model.Mahasiswa) (model.Mahasiswa, error)
 	// Delete(mahasiswa Mahasiswa) (Mahasiswa, error)
 }
 
@@ -45,11 +45,11 @@ func (r *repository) Create(mahasiswa model.Mahasiswa) (model.Mahasiswa, error) 
 	return mahasiswa, err
 }
 
-// func (r *repository) Update(book Book) (Book, error) {
-// 	err := r.db.Save(&book).Error
+func (r *repository) Update(mahasiswa model.Mahasiswa) (model.Mahasiswa, error) {
+	err := r.db.Save(&mahasiswa).Error
 
-// 	return book, err
-// }
+	return mahasiswa, err
+}
 
 // func (r *repository) Delete(book Book) (Book, error) {
 // 	err := r.db.Delete(&book).Error

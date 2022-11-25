@@ -10,7 +10,7 @@ type Service interface {
 	FindAll() ([]model.Mahasiswa, error)
 	FindByID(ID int) (model.Mahasiswa, error)
 	Create(mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error)
-	// Update(ID int, bookRequest BookRequest) (Book, error)
+	Update(ID int, mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error)
 	// Delete(ID int, bookRequest BookRequest) (Book, error)
 }
 
@@ -45,19 +45,19 @@ func (s *service) Create(mahasiswaRequest request.MahasiswaRequest) (model.Mahas
 	return newMahasiswa, err
 }
 
-// func (s *service) Update(ID int, bookRequest BookRequest) (Book, error) {
-// 	book, err := s.repository.FindByID(ID)
-// 	price, _ := bookRequest.Price.Int64()
+func (s *service) Update(ID int, mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error) {
+	mahasiswa, err := s.repository.FindByID(ID)
+	// price, _ := bookRequest.Price.Int64()
 
-// 	book.Title = bookRequest.Title
-// 	book.Price = int(price)
-// 	book.Description = bookRequest.Description
-// 	book.Rating = bookRequest.Rating
-// 	book.Discount = bookRequest.Discount
+	mahasiswa.NPM = mahasiswaRequest.NPM
+	mahasiswa.Nama = mahasiswaRequest.Nama
+	mahasiswa.Kelas = mahasiswaRequest.Kelas
+	mahasiswa.Jurusan = mahasiswaRequest.Jurusan
+	mahasiswa.NomorHandphone = mahasiswaRequest.NomorHandphone
 
-// 	newBook, err := s.repository.Update(book)
-// 	return newBook, err
-// }
+	newMahasiswa, err := s.repository.Update(mahasiswa)
+	return newMahasiswa, err
+}
 
 // func (s *service) Delete(ID int, bookRequest BookRequest) (Book, error) {
 // 	book, err := s.repository.FindByID(ID)

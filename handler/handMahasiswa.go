@@ -93,6 +93,39 @@ func (h *mahasiswaHandler) GetMahasiswaId(ctx *gin.Context) {
 	})
 }
 
+func (h *mahasiswaHandler) UpdateMahasiswa(ctx *gin.Context) {
+	var mahasiswaRequest request.MahasiswaRequest
+
+	err := ctx.ShouldBindJSON(&mahasiswaRequest)
+	if err != nil {
+		errorMessages := []string{}
+		for _, e := range err.(validator.ValidationErrors) {
+			errorMessage := fmt.Sprintf("Error on field %s, Condition %s", e.Field(), e.ActualTag())
+			errorMessages = append(errorMessages, errorMessage)
+			// ctx.JSON(http.StatusBadRequest, errorMessage)
+			// return
+		}
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"errors": errorMessages,
+		})
+		return
+	}
+
+	idString := ctx.Param("id")
+	id, _ := strconv.Atoi(idString)
+
+	book, err := h.mahasiswaService.Update(id, mahasiswaRequest)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": convertResponse(book),
+	})
+}
+
 func convertResponse(b model.Mahasiswa) response.MahasiswaResponse {
 	return response.MahasiswaResponse{
 		ID:             b.Id,
