@@ -3,12 +3,13 @@ package services
 import (
 	"mahasiswa/model"
 	"mahasiswa/repository"
+	"mahasiswa/request"
 )
 
 type Service interface {
 	FindAll() ([]model.Mahasiswa, error)
 	// FindByID(ID int) (Book, error)
-	// Create(bookRequest BookRequest) (Book, error)
+	Create(mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error)
 	// Update(ID int, bookRequest BookRequest) (Book, error)
 	// Delete(ID int, bookRequest BookRequest) (Book, error)
 }
@@ -31,18 +32,18 @@ func (s *service) FindAll() ([]model.Mahasiswa, error) {
 // 	return book, err
 // }
 
-// func (s *service) Create(bookRequest BookRequest) (Book, error) {
-// 	price, _ := bookRequest.Price.Int64()
-// 	book := Book{
-// 		Title:       bookRequest.Title,
-// 		Price:       int(price),
-// 		Description: bookRequest.Description,
-// 		Rating:      bookRequest.Rating,
-// 		Discount:    bookRequest.Discount,
-// 	}
-// 	newBook, err := s.repository.Create(book)
-// 	return newBook, err
-// }
+func (s *service) Create(mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error) {
+	// price, _ := mahasiswaRequest.Price.Int64()
+	mahasiswa := model.Mahasiswa{
+		NPM:            mahasiswaRequest.NPM,
+		Nama:           string(mahasiswaRequest.Nama),
+		Kelas:          mahasiswaRequest.Kelas,
+		Jurusan:        mahasiswaRequest.Jurusan,
+		NomorHandphone: mahasiswaRequest.NomorHandphone,
+	}
+	newMahasiswa, err := s.repository.Create(mahasiswa)
+	return newMahasiswa, err
+}
 
 // func (s *service) Update(ID int, bookRequest BookRequest) (Book, error) {
 // 	book, err := s.repository.FindByID(ID)

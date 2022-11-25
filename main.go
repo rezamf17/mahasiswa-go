@@ -26,5 +26,6 @@ func main() {
 
 	router := gin.Default()
 	router.GET("/mahasiswa", mahasiswaHandler.GetAllMahasiswa)
+	router.POST("/mahasiswa", mahasiswaHandler.CreateMahasiswa)
 	router.Run(":8888")
 }

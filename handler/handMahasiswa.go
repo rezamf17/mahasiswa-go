@@ -1,12 +1,15 @@
 package handler
 
 import (
+	"fmt"
 	"mahasiswa/model"
+	"mahasiswa/request"
 	"mahasiswa/response"
 	"mahasiswa/services"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type mahasiswaHandler struct {
@@ -36,6 +39,36 @@ func (h *mahasiswaHandler) GetAllMahasiswa(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"data": mahasiswaResponse,
+	})
+}
+
+func (h *mahasiswaHandler) CreateMahasiswa(ctx *gin.Context) {
+	var mahasiswaRequest request.MahasiswaRequest
+
+	err := ctx.ShouldBindJSON(&mahasiswaRequest)
+	if err != nil {
+		errorMessages := []string{}
+		for _, e := range err.(validator.ValidationErrors) {
+			errorMessage := fmt.Sprintf("Error on field %s, Condition %s", e.Field(), e.ActualTag())
+			errorMessages = append(errorMessages, errorMessage)
+			// ctx.JSON(http.StatusBadRequest, errorMessage)
+			// return
+		}
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"errors": errorMessages,
+		})
+		return
+	}
+
+	mahasiswa, err := h.mahasiswaService.Create(mahasiswaRequest)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": convertResponse(mahasiswa),
 	})
 }
 
