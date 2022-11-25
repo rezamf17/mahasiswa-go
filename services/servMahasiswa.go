@@ -11,7 +11,7 @@ type Service interface {
 	FindByID(ID int) (model.Mahasiswa, error)
 	Create(mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error)
 	Update(ID int, mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error)
-	// Delete(ID int, bookRequest BookRequest) (Book, error)
+	Delete(ID int, mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error)
 }
 
 type service struct {
@@ -59,8 +59,8 @@ func (s *service) Update(ID int, mahasiswaRequest request.MahasiswaRequest) (mod
 	return newMahasiswa, err
 }
 
-// func (s *service) Delete(ID int, bookRequest BookRequest) (Book, error) {
-// 	book, err := s.repository.FindByID(ID)
-// 	newBook, err := s.repository.Delete(book)
-// 	return newBook, err
-// }
+func (s *service) Delete(ID int, mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error) {
+	mahasiswa, err := s.repository.FindByID(ID)
+	newMahasiswa, err := s.repository.Delete(mahasiswa)
+	return newMahasiswa, err
+}

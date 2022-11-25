@@ -126,6 +126,26 @@ func (h *mahasiswaHandler) UpdateMahasiswa(ctx *gin.Context) {
 	})
 }
 
+func (h *mahasiswaHandler) DeleteMahasiswa(ctx *gin.Context) {
+	idString := ctx.Param("id")
+	id, _ := strconv.Atoi(idString)
+	// fmt.Println(id)
+	b, err := h.mahasiswaService.Delete(id, request.MahasiswaRequest{})
+
+	mahasiswaResponse := convertResponse(b)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": mahasiswaResponse,
+	})
+}
+
 func convertResponse(b model.Mahasiswa) response.MahasiswaResponse {
 	return response.MahasiswaResponse{
 		ID:             b.Id,

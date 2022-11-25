@@ -12,7 +12,7 @@ type Repository interface {
 	FindByID(ID int) (model.Mahasiswa, error)
 	Create(mahasiswa model.Mahasiswa) (model.Mahasiswa, error)
 	Update(mahasiswa model.Mahasiswa) (model.Mahasiswa, error)
-	// Delete(mahasiswa Mahasiswa) (Mahasiswa, error)
+	Delete(mahasiswa model.Mahasiswa) (model.Mahasiswa, error)
 }
 
 type repository struct {
@@ -51,8 +51,8 @@ func (r *repository) Update(mahasiswa model.Mahasiswa) (model.Mahasiswa, error) 
 	return mahasiswa, err
 }
 
-// func (r *repository) Delete(book Book) (Book, error) {
-// 	err := r.db.Delete(&book).Error
+func (r *repository) Delete(mahasiswa model.Mahasiswa) (model.Mahasiswa, error) {
+	err := r.db.Delete(&mahasiswa).Error
 
-// 	return book, err
-// }
+	return mahasiswa, err
+}

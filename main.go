@@ -29,5 +29,6 @@ func main() {
 	router.POST("/mahasiswa", mahasiswaHandler.CreateMahasiswa)
 	router.GET("/mahasiswa/:id", mahasiswaHandler.GetMahasiswaId)
 	router.PUT("/mahasiswa/:id", mahasiswaHandler.UpdateMahasiswa)
+	router.DELETE("/mahasiswa/:id", mahasiswaHandler.DeleteMahasiswa)
 	router.Run(":8888")
 }
