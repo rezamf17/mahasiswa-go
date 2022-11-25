@@ -8,7 +8,7 @@ import (
 
 type Service interface {
 	FindAll() ([]model.Mahasiswa, error)
-	// FindByID(ID int) (Book, error)
+	FindByID(ID int) (model.Mahasiswa, error)
 	Create(mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error)
 	// Update(ID int, bookRequest BookRequest) (Book, error)
 	// Delete(ID int, bookRequest BookRequest) (Book, error)
@@ -27,10 +27,10 @@ func (s *service) FindAll() ([]model.Mahasiswa, error) {
 	return mahasiswa, err
 }
 
-// func (s *service) FindByID(ID int) (Book, error) {
-// 	book, err := s.repository.FindByID(ID)
-// 	return book, err
-// }
+func (s *service) FindByID(ID int) (model.Mahasiswa, error) {
+	mahasiswa, err := s.repository.FindByID(ID)
+	return mahasiswa, err
+}
 
 func (s *service) Create(mahasiswaRequest request.MahasiswaRequest) (model.Mahasiswa, error) {
 	// price, _ := mahasiswaRequest.Price.Int64()

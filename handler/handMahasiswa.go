@@ -7,6 +7,7 @@ import (
 	"mahasiswa/response"
 	"mahasiswa/services"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -69,6 +70,26 @@ func (h *mahasiswaHandler) CreateMahasiswa(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"data": convertResponse(mahasiswa),
+	})
+}
+
+func (h *mahasiswaHandler) GetMahasiswaId(ctx *gin.Context) {
+	idString := ctx.Param("id")
+	id, _ := strconv.Atoi(idString)
+	// fmt.Println(id)
+	b, err := h.mahasiswaService.FindByID(int(id))
+
+	mahasiswaResponse := convertResponse(b)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"errors": err,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"data": mahasiswaResponse,
 	})
 }
 

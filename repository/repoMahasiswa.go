@@ -9,7 +9,7 @@ import (
 
 type Repository interface {
 	FindAll() ([]model.Mahasiswa, error)
-	// FindByID(ID int) (Mahasiswa, error)
+	FindByID(ID int) (model.Mahasiswa, error)
 	Create(mahasiswa model.Mahasiswa) (model.Mahasiswa, error)
 	// Update(mahasiswa Mahasiswa) (Mahasiswa, error)
 	// Delete(mahasiswa Mahasiswa) (Mahasiswa, error)
@@ -31,13 +31,13 @@ func (r *repository) FindAll() ([]model.Mahasiswa, error) {
 	return mahasiswa, err
 }
 
-// func (r *repository) FindByID(ID int) (Book, error) {
-// 	var book Book
+func (r *repository) FindByID(ID int) (model.Mahasiswa, error) {
+	var mahasiswa model.Mahasiswa
 
-// 	err := r.db.Find(&book, ID).Error
-// 	// fmt.Println(&book.Discount)
-// 	return book, err
-// }
+	err := r.db.Find(&mahasiswa, ID).Error
+	// fmt.Println(&book.Discount)
+	return mahasiswa, err
+}
 
 func (r *repository) Create(mahasiswa model.Mahasiswa) (model.Mahasiswa, error) {
 	err := r.db.Create(&mahasiswa).Error
